@@ -16,4 +16,4 @@ CREATE TABLE `banking_data` (
 -- Table structure for `character_data`
 -- ----------------------------
 
-ALTER TABLE character_data ADD CashMoney int(11) NOT NULL DEFAULT 0 AFTER last_updated;
+ALTER TABLE character_data ADD CashMoney int(11) NOT NULL DEFAULT 0 AFTER Infected;
