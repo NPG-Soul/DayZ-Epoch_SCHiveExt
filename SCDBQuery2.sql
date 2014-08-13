@@ -1,4 +1,8 @@
-/* Transfers players bank money from morality fiedld in player_data to banksaldo in banking_data */
+/* 
+	Author: Storm
+	Description: Transfers players bank money from morality fiedld in player_data to banksaldo in banking_data 
+	
+*/
 
 INSERT IGNORE INTO banking_data 
 (PlayerUID, PlayerName)
