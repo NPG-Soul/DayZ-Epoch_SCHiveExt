@@ -27,9 +27,9 @@ BankDialogWithdrawAmount = {
 	_bank = player getVariable ["bankMoney", 0];
 	_wealth = player getVariable["cashMoney",0];
 	
-	if (_amount < 1 or _amount > _bank) exitWith {
-		cutText ["You can not withdraw more than is in your bank.", "PLAIN DOWN"];
-	};
+	if(_amount > 999999) exitWith { cutText ["You can not withdraw more then 999,999 gold coins at once.", "PLAIN DOWN"]; };
+	if(_amount < 1 or _amount > _bank) exitWith { cutText ["You can not withdraw more than is in your bank.", "PLAIN DOWN"]; };
+
 	player setVariable["cashMoney",(_wealth + _amount),true];
 	player setVariable["bankMoney",(_bank - _amount),true];
 	
@@ -46,9 +46,9 @@ BankDialogDepositAmount = {
 	_amount = parseNumber (_this select 0);
 	_bank = player getVariable ["bankMoney", 0];
 	_wealth = player getVariable["cashMoney",0];
-	if (_amount < 1 or _amount > _wealth) exitWith {
-		cutText ["You can not deposit more than you have.", "PLAIN DOWN"];
-	};
+	
+	if(_amount > 999999) exitWith { cutText ["You can not deposit more then 999,999 gold coins at once.", "PLAIN DOWN"]; };
+	if (_amount < 1 or _amount > _wealth) exitWith { cutText ["You can not deposit more than you have.", "PLAIN DOWN"]; };
 
 	if(   LimitOnBank  && ((_bank + _amount ) >  MaxBankMoney)) then{
 		if(   (getPlayerUID player in DonatorListZupa )  && ((_bank + _amount ) <  MaxDonatorBankMoney)) then{ 

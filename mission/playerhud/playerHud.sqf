@@ -49,7 +49,7 @@ while {true} do
 	<t size='0.8' align='right'>%11h %12min UPTIME</t><br/>",
 	AsReMixhud_blood,   //1
 	AsReMixhud_humanity,//2
-	_cashMoney,//3
+	[_cashMoney] call BIS_fnc_numberText,//3
 	AsReMixhud_zombiekills,//4
 	AsReMixhud_hmnicon,//5
 	name player,//6
@@ -59,7 +59,7 @@ while {true} do
 	AsReMixhud_killsH,//10
 	_hours,//11
 	_minutes2,//12
-	_bankMoney//13
+	[_bankMoney] call BIS_fnc_numberText,//13
 	];
 	_vitals ctrlCommit 0;
         
