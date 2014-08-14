@@ -32,12 +32,12 @@ if ( _playerID != _dummy ) then {
 
 //Variables
 _worldspace = 	[];
+
 _state = 		[];
 //Soul start: SC Edit >>> initialize variables in main scope (helps avoiding scope issues within the file and avoids undeclared variable errors in rpt, aswell they server as default values if anything goes wrong)
 _cashMoney = 0;
 _bankMoney = 0;
 //Soul end: SC Edit
-
 
 //Do Connection Attempt
 _doLoop = 0;
@@ -186,16 +186,6 @@ if (count _stats > 0) then {
 	_playerObj setVariable["headShots_CHK",0,true];
 };
 
-// ------------ SOUL - Single Currency - Get Bank Value ----------------
-_key2 = format["CHILD:298:%1:",_playerID];
-_primary2 = _key2 call server_hiveReadWrite;
-if(count _primary2 > 0) then {
-	if((_primary2 select 0) != "ERROR") then {
-		_bankMoney = _primary2 select 1;	//Overwriting default 0 value with returned value.
-	};
-};
-// ------------ SOUL - Single Currency - Get Bank Value ----------------
-
 if (_randomSpot) then {
 	private["_counter","_position","_isNear","_isZero","_mkr"];
 	if (!isDedicated) then {
@@ -257,8 +247,8 @@ _playerObj setVariable["humanity_CHK",_humanity];
 //_playerObj setVariable["state",_state,true];
 _playerObj setVariable["lastPos",getPosATL _playerObj];
 //Soul start: SC Edit >>> assigning player new variable for cashmoney and bankMoney
-_playerObj setVariable ["cashMoney",_cashMoney,true];	//Needed on all clients so we transmit global
-_playerObj setVariable ["bankMoney",_bankMoney,true];	//To reduce the ammount of global transmitted variables we might have to look into pvc methods to assign variables only on the client where it is needed.
+_playerObj setVariable ["cashMoney",_cashMoney,true];
+_playerObj setVariable ["cashMoney_CHK",_cashMoney];
 //Soul end: SC Edit
 dayzPlayerLogin2 = [_worldspace,_state];
 
@@ -275,6 +265,23 @@ if (!isNull _playerObj) then {
 //record time started
 _playerObj setVariable ["lastTime",time];
 //_playerObj setVariable ["model_CHK",typeOf _playerObj];
+
+// ------------ SOUL - Single Currency - Get Bank Value ----------------
+_key2 = format["CHILD:298:%1:",_playerID];
+_primary2 = _key2 call server_hiveReadWrite;
+if(count _primary2 > 0) then {
+	if((_primary2 select 0) != "ERROR") then {
+		_bankMoney = _primary2 select 1;
+		_playerObj setVariable["bankMoney",_bankMoney,true];
+		_playerObj setVariable["bankMoney_CHK",_bankMoney];
+	} else {
+		_playerObj setVariable["bankMoney",0,true];
+		_playerObj setVariable["bankMoney_CHK",0];
+	};
+} else {
+	_playerObj setVariable["bankMoney",0,true];
+	_playerObj setVariable["bankMoney_CHK",0];
+};
 
 //diag_log ("LOGIN PUBLISHING: " + str(_playerObj) + " Type: " + (typeOf _playerObj));
 
